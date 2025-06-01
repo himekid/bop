@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 BOOKMARK_FILE="${1:-$HOME/bookmarks.html}"
 
 BROWSER_CMD=""
