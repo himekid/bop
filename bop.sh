@@ -42,7 +42,7 @@ extract_bookmarks() {
 }
 
 main() {
-  selection=$(extract_bookmarks | fzf --prompt="Bookmark > " )
+  selection=$(extract_bookmarks | fzf --exact --prompt="Bookmark > " )
 
   if [[ -z "$selection" ]]; then
     exit 0
