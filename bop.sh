@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 
-BOOKMARK_FILE="${1:-$HOME/bookmarks.html}"
+BOOKMARK_DIR="${1:-$HOME/Documents}"
+BOOKMARK_FILE=$(ls -t "$BOOKMARK_DIR"/*bookmarks*.html 2>/dev/null | head -n 1)
 
 BROWSER_CMD=""
+# for linux
 if command -v xdg-open >/dev/null 2>&1; then
   BROWSER_CMD="xdg-open"
+# for macOS
 elif command -v open >/dev/null 2>&1; then
   BROWSER_CMD="open"
+# for windows
+elif command -v start >/dev/null 2>&1; then
+  BROWSER_CMD="start"
 else
-  echo "ERROR: xdg-open or open command was not found"
+  echo "ERROR: xdg-open or open or start command was not found"
   exit 1
 fi
 
