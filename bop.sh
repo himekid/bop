@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-BOOKMARK_DIR="${1:-$HOME/Documents}"
+#BOOKMARK_DIR="${1:-$HOME/Documents}"
+BOOKMARK_DIR=$HOME/Documents
 BOOKMARK_FILE=$(ls -t "$BOOKMARK_DIR"/*bookmarks*.html 2>/dev/null | head -n 1)
+QUERY_PARAM=$1
 
 BROWSER_CMD=""
 # for linux
@@ -48,7 +50,7 @@ extract_bookmarks() {
 }
 
 main() {
-  selection=$(extract_bookmarks | fzf --exact --prompt="Bookmark > " )
+  selection=$(extract_bookmarks | fzf -q "$QUERY_PARAM" --exact --prompt="Bookmark > " )
 
   if [[ -z "$selection" ]]; then
     exit 0
