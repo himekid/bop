@@ -50,15 +50,22 @@ extract_bookmarks() {
 }
 
 main() {
-  selection=$(extract_bookmarks | fzf -q "$QUERY_PARAM" --exact --prompt="Bookmark > " )
+  # Keep showing the fzf selection screen after opening a bookmark
+  while true; do
+    selection=$(extract_bookmarks | fzf -q "$QUERY_PARAM" --exact --prompt="Bookmark > " )
 
-  if [[ -z "$selection" ]]; then
-    exit 0
-  fi
+    if [[ -z "$selection" ]]; then
+      break
+    fi
 
-  url=$(echo "$selection" | awk -F'\t' '{print $2}')
+    url=$(echo "$selection" | awk -F'\t' '{print $2}')
 
-  $BROWSER_CMD "$url" &>/dev/null &
+    # open in background so the loop can continue
+    $BROWSER_CMD "$url" &>/dev/null &
+
+    # Clear initial query after first use so subsequent fzf calls don't reuse it
+    QUERY_PARAM=""
+  done
 }
 
 main
